@@ -1,9 +1,14 @@
 const express = require("express")
 const connectDb = require("./database/db")
-const port = 3000
+const userRouter = require("./routes/user.router")
+require("dotenv").config()
+const cookieParser = require("cookie-parser")
+const port = process.env.PORT || 3000
 const app = express()
 
 app.use(express.json())
+
+app.use("/api/v1/user",userRouter)
 
 connectDb()
 .then(()=>{
