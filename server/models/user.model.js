@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     profile:{
-        type: String
+        type: String,
+        default: "https://res.cloudinary.com/prod/image/upload/ar_1:1,c_auto,g_auto,w_500/r_45/me/rc/animals-5.png"
     }
 },{
     timestamps: true

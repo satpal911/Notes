@@ -1,7 +1,7 @@
+require("dotenv").config()
 const express = require("express")
 const connectDb = require("./database/db")
 const userRouter = require("./routes/user.router")
-require("dotenv").config()
 const cookieParser = require("cookie-parser")
 const noteRouter = require("./routes/note.router")
 const port = process.env.PORT || 3000

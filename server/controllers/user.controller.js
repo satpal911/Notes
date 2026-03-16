@@ -1,6 +1,9 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const cloudinary = require("../utils/cloudinary");
+const fs = require ("fs")
+
 
 const register = async (req, res) => {
   try {
@@ -171,11 +174,31 @@ const updatePassword = async (req, res) => {
 
 const updatePic = async (req, res) => {
   try {
+    const userId = req.user._id;
+    if (!req.file) {
+      return res.status(400).json({ status: 0, message: "No image provided" });
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
+      folder: "user_profiles",
+    });
+
+     const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profile: uploadResponse.secure_url },
+      { returnDocument: 'after'}
+    ).select("-password");
+
+    fs.unlinkSync(req.file.path)
+
     res.status(200).json({
       status: 1,
       message: "pic updated successfully",
     });
   } catch (error) {
+
+    if (req.file) fs.unlinkSync(req.file.path);
+
     res.status(500).json({
       status: 0,
       message: `server error ${error}`,
