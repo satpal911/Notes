@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import  {UserContext}  from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -25,54 +27,68 @@ const Register = () => {
       toast.success("User registered successfully");
       setFormData({ name: "", email: "", password: "" });
     } catch (error) {
-      toast.error(error || "Something went wrong")
+      toast.error(error || "Something went wrong");
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen ">
-      <h1 className="text-center text-2xl font-bold mb-4">Register here</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="border-4 border-gray-200 flex flex-col w-96 p-8 rounded-lg items-center justify-around gap-4 shadow-lg"
-      >
-        <input
-          type="text"
-          placeholder="Enter your name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded"
-        />
-
-        <input
-          type="email"
-          placeholder="Enter your email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded"
-        />
-
-        <input
-          type="password"
-          placeholder="create your password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full p-2 cursor-pointer bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition"
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300">
+      <Navbar />
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <h1 className="text-center text-4xl font-bold mb-4 text-blue-600">
+          Register here
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="border-4 border-gray-200 flex flex-col w-96 p-8 rounded-lg items-center justify-around gap-4 shadow-lg"
         >
-          {loading ? "Registering..." : "Register"}
-        </button>
-      </form>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+
+          <input
+            type="password"
+            placeholder="create your password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full p-2 cursor-pointer bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition"
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
+        </form>
+        <p className="mt-4 text-gray-600">
+          Already have an account?
+          <Link
+            to="/login"
+            className="ml-1 text-blue-900 font-bold hover:underline"
+          >
+            login here
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
