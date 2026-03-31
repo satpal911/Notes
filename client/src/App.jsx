@@ -2,11 +2,13 @@ import React from 'react'
 import PublicRoutes from './routes/PublicRoutes'
 import { Routes, Route } from 'react-router-dom'
 import {Toaster} from "react-hot-toast"
+// import ProtectedRoutes from './routes/ProtectedRoutes'
 const App = () => {
   return (
     <div>
       <Routes>
       <Route path="/*" element={<PublicRoutes />} />
+      {/* <Route path="/*" element={<ProtectedRoutes />} /> */}
       </Routes>
       <Toaster position='top-center'/>
     </div>

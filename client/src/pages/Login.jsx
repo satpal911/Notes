@@ -1,15 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { UserContext } from "../context/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const { login, loading } = useContext(UserContext);
+  const navigate = useNavigate()
+  const { login, loading, user } = useContext(UserContext);
+
+  useEffect(()=>{
+    if(user)
+    {navigate("/user/me", {replace: true})}
+  },[user,navigate])
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -22,6 +30,7 @@ const Login = () => {
     try {
       await login(formData.email, formData.password);
       toast.success("User loggedIn successfully");
+      navigate('/user/me', { replace: true });
       setFormData({ email: "", password: "" });
     } catch (error) {
       toast.error(error || "Something went wrong");
