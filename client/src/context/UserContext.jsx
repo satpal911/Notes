@@ -3,11 +3,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = import.meta.env.VITE_API_URL
+const API = import.meta.env.VITE_API_URL;
 
 export const UserContext = createContext();
 
-export const UserProvider = ({children}) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export const UserProvider = ({children}) => {
   const navigate = useNavigate();
 
   const register = async (name, email, password) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await axios.post(
         `${API}/api/v1/user/register`,
@@ -37,7 +37,7 @@ export const UserProvider = ({children}) => {
   };
 
   const login = async (email, password) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await axios.post(
         `${API}/api/v1/user/login`,
@@ -63,29 +63,30 @@ export const UserProvider = ({children}) => {
     setToken(null);
     localStorage.removeItem("token");
     navigate("/", { replace: true });
-  },[navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     const fetchUser = async () => {
       if (!token) return;
       try {
-        const res = await axios.get(`${API}/api/v1/user/me`,
-            {headers: {Authorization: `Bearer ${token}`},
-                withCredentials:true}
-        );
-        setUser(res.data)
+        const res = await axios.get(`${API}/api/v1/user/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        });
+        setUser(res.data);
       } catch (error) {
         console.error("User fetch failed:", error);
         logout();
       }
     };
     fetchUser();
-  },[token,logout]);
+  }, [token, logout]);
 
   return (
-    <UserContext.Provider value={{ register, login, logout, user, token, loading }}>
-        {children}
+    <UserContext.Provider
+      value={{ register, login, logout, user, token, loading, setUser }}
+    >
+      {children}
     </UserContext.Provider>
   );
 };
-
