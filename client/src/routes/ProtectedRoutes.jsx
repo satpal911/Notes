@@ -3,7 +3,7 @@ import Register from "../pages/Register";
 import { Navigate } from "react-router-dom";
 
 import React, { useContext } from 'react'
-import UserContext from "../context/UserContext";
+import {UserContext} from "../context/UserContext";
 
 const ProtectedRoutes = ({children}) => {
  const {token, loading} = useContext(UserContext)
@@ -12,6 +12,7 @@ const ProtectedRoutes = ({children}) => {
 
  if(!token){
   return <Navigate to="/login" replace />
+  
  }
   return children
 }
