@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
-
+MONGO_URI = process.env.MONGO_URI
 const connectDb = async() =>{
    try {
-    await mongoose.connect("mongodb+srv://satpal61106_db_user:rustBnHt6u363zrO@cluster0.edy3wfx.mongodb.net/?appName=Cluster0")
+    await mongoose.connect(`${MONGO_URI}`)
     console.log("database connected successfully")
    } catch (error) {
     console.log(`database connecting error ${error}`)
