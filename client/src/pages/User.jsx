@@ -15,6 +15,8 @@ import {
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
+const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
+
 
 const User = () => {
   const { user, setUser, loading } = useContext(UserContext);
@@ -34,7 +36,7 @@ const User = () => {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        "http://localhost:4000/api/v1/user/updateName",
+        `${API}/api/v1/user/updateName`,
         { name: formdata.name },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -61,7 +63,7 @@ const User = () => {
       const token = localStorage.getItem("token");
 
       const { data } = await axios.put(
-        "http://localhost:4000/api/v1/user/updatePic",
+        `${API}/api/v1/user/updatePic`,
         uploadData,
         {
           headers: {

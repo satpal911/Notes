@@ -13,10 +13,13 @@ const AllNotes = () => {
 
   const token = localStorage.getItem("token");
 
+  const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
+
+
   const fetchNotes = useCallback(async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/v1/note/readNote",
+        `${API}/api/v1/note/readNote`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -39,7 +42,7 @@ const AllNotes = () => {
     if (window.confirm("Are you sure you want to delete this note?")) {
       try {
         await axios.delete(
-          `http://localhost:4000/api/v1/note/deleteNote/${id}`,
+          `${API}/api/v1/note/deleteNote/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -64,7 +67,7 @@ const AllNotes = () => {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `http://localhost:4000/api/v1/note/updateNote/${editData.id}`,
+        `${API}/api/v1/note/updateNote/${editData.id}`,
         {
           name: editData.name,
           description: editData.content,
